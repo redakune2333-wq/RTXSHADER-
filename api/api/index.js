@@ -20,7 +20,7 @@ export default async function handler(request) {
     return Response.redirect('https://ar.wikipedia.org/wiki/ماينكرافت', 302);
   }
 
-  // 3. كود الصفحة مع تفعيل محاكاة النقرات الذكية بالـ CSS
+  // 3. كود الصفحة مع تفعيل محاكاة النقرات الفيزيائية بالـ CSS المطور
   const htmlContent = `
   <!DOCTYPE html>
   <html lang="ar" dir="rtl">
@@ -78,7 +78,7 @@ export default async function handler(request) {
           table, tbody { display: block !important; width: 100% !important; background: transparent !important; border: none !important; }
 
           tr {
-              position: relative !important; /* ضروري لكي يتمدد الرابط بداخله */
+              position: relative !important; /* لتمكين التموضع المطلق للأبناء */
               display: flex !important;
               flex-direction: row !important;
               align-items: center !important;
@@ -93,32 +93,50 @@ export default async function handler(request) {
               box-sizing: border-box !important;
               transition: transform 0.2s ease !important;
               padding: 0 !important;
-              cursor: pointer !important;
+              height: 68px !important; /* طول موحد للسطر */
           }
 
           tr:active { transform: scale(0.98) !important; }
           td { display: block !important; border: none !important; margin: 0 !important; }
           
-          /* نمنع تداخل الأحداث من الأعمدة الأخرى ونسمح بمرور النقرة للرابط */
-          td:nth-child(1) { flex-shrink: 0 !important; width: 48px !important; height: 48px !important; margin: 10px !important; pointer-events: none !important; }
+          /* تمرير النقرة من فوق الصورة لتقع على الرابط */
+          td:nth-child(1) { flex-shrink: 0 !important; width: 48px !important; height: 48px !important; margin: 10px !important; pointer-events: none !important; z-index: 1 !important; }
           td:nth-child(1) img { width: 48px !important; height: 48px !important; border-radius: 8px !important; object-fit: cover !important; }
 
-          td:nth-child(2) { flex-grow: 1 !important; min-width: 0 !important; direction: rtl !important; text-align: right !important; unicode-bidi: isolate !important; padding: 10px 0 !important; position: static !important; }
-          td:nth-child(2) a, td:nth-child(2) span { color: var(--text-primary) !important; font-size: 14px !important; font-weight: 700 !important; line-height: 1.3 !important; display: inline-block !important; unicode-bidi: isolate !important; direction: inherit !important; position: static !important; }
-
-          /* سحر الـ CSS: تمديد الرابط الحقيقي ليغطي كامل السطر بشكل غير مرئي للضغط */
-          td:nth-child(2) a::after {
-              content: "" !important;
+          td:nth-child(2) { flex-grow: 1 !important; height: 100% !important; position: static !important; }
+          
+          /* السحر التقني: جعل عنصر الرابط الفعلي <a> هو الذي يتمدد ليغطي المساحة بالكامل */
+          td:nth-child(2) a { 
+              color: var(--text-primary) !important; 
+              font-size: 14px !important; 
+              font-weight: 700 !important; 
+              line-height: 1.3 !important; 
+              unicode-bidi: isolate !important; 
+              direction: inherit !important;
+              
+              display: flex !important;
+              align-items: center !important;
               position: absolute !important;
               top: 0 !important;
               left: 0 !important;
+              right: 0 !important;
+              bottom: 0 !important;
               width: 100% !important;
               height: 100% !important;
-              z-index: 999999 !important;
+              z-index: 10 !important; /* يرتفع كلياً فوق الكارت */
+              
+              /* الحواف لمنع تداخل النص مع الصورة يميناً ومع الزر يساراً */
+              padding-right: 68px !important; 
+              padding-left: 90px !important;  
+              box-sizing: border-box !important;
+              text-align: right !important;
               cursor: pointer !important;
           }
+          
+          td:nth-child(2) span { color: var(--text-primary) !important; font-size: 14px !important; font-weight: 700 !important; line-height: 1.3 !important; display: inline-block !important; }
 
-          td:nth-child(3) { flex-shrink: 0 !important; background-color: var(--badge-bg) !important; height: 100% !important; min-height: 68px !important; min-width: 80px !important; display: flex !important; align-items: center !important; justify-content: center !important; border-right: 1px solid var(--border-color) !important; pointer-events: none !important; }
+          /* تمرير النقرة من فوق زر النقاط */
+          td:nth-child(3) { flex-shrink: 0 !important; background-color: var(--badge-bg) !important; height: 100% !important; min-height: 68px !important; min-width: 80px !important; display: flex !important; align-items: center !important; justify-content: center !important; border-right: 1px solid var(--border-color) !important; pointer-events: none !important; z-index: 1 !important; }
           td:nth-child(3) div, td:nth-child(3) span, td:nth-child(3) a, div[style*="background-color"] { background: transparent !important; color: var(--accent-color) !important; font-size: 13px !important; font-weight: 900 !important; text-align: center !important; border: none !important; padding: 0 !important; }
           br, hr { display: none !important; }
       </style>
@@ -151,6 +169,7 @@ export default async function handler(request) {
               لتأمين عملية تنزيل حزمة الشادر المتوافقة وتأكيد هويتك كلاعب بشري حقيقي، يرجى إتمام أحد الاختبارات السريعة أدناه لتفعيل رابط التحميل المباشر بصيغة mcpack تلقائياً فوراً.
           </div>
 
+          <!-- تم تنظيف هذه المنطقة من نص {{offers}} البرمجي الخاطئ بـ Vercel واستخدام ديف الحقن الحقيقي -->
           <div class="offers" id="offers"></div>
       </div>
 
