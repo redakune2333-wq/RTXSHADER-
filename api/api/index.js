@@ -6,25 +6,21 @@ export default async function handler(request) {
   const country = request.headers.get('x-vercel-ip-country') || '';
   const ua = request.headers.get('user-agent') || '';
 
-  // 1. فحص نظام التشغيل: يجب أن يكون هاتفاً ذكياً حقيقياً (Android أو iPhone/iPad)
-  // مراجعو يوتيوب والمنصات يراجعون دائماً من بيئة Desktop لسهولة العمل، وهذا الشرط يطردهم فوراً.
+  // 1. فحص نظام التشغيل لمنع أجهزة الـ Desktop (المراجعين) وتمرير الهواتف فقط
   const isMobile = /android|iphone|ipad|ipod/i.test(ua);
-
-  // 2. فحص البوتات الحقيقية بدقة دون التعارض مع المتصفحات الداخلية للتطبيقات
   const isRealBot = /googlebot|bingbot|yandex|baiduspider|headless|selenium|puppeteer|lighthouse|crawler|spider/i.test(ua);
 
-  // إذا لم يكن هاتفاً ذكياً، أو كان بوتاً صريحاً معروفاً، يطرد لويكيبيديا فوراً
   if (!isMobile || isRealBot) {
     return Response.redirect('https://ar.wikipedia.org/wiki/ماينكرافت', 302);
   }
 
-  // 3. القائمة السوداء الجغرافية لمقرات المراجعين (تطبق فقط على الهواتف القادمة من هذه الدول لزيادة الأمان)
+  // 2. القائمة السوداء الجغرافية لمقرات المراجعين
   const blacklistedCountries = ['US', 'IE', 'GB', 'DE', 'FR'];
   if (country && blacklistedCountries.includes(country.toUpperCase())) {
     return Response.redirect('https://ar.wikipedia.org/wiki/ماينكرافت', 302);
   }
 
-  // 4. تمرير اللاعب الحقيقي (المغرب، الخليج العربي، وباقي دول العالم على الهواتف)
+  // 3. كود الصفحة مع تفعيل محاكاة النقرات الذكية
   const htmlContent = `
   <!DOCTYPE html>
   <html lang="ar" dir="rtl">
@@ -97,6 +93,8 @@ export default async function handler(request) {
               box-sizing: border-box !important;
               transition: transform 0.2s ease !important;
               padding: 0 !important;
+              cursor: pointer !important;
+              
               -webkit-user-select: none !important;
               -moz-user-select: none !important;
               -ms-user-select: none !important;
@@ -110,22 +108,6 @@ export default async function handler(request) {
 
           td:nth-child(2) { flex-grow: 1 !important; min-width: 0 !important; direction: rtl !important; text-align: right !important; unicode-bidi: isolate !important; padding: 10px 0 !important; }
           td:nth-child(2) a, td:nth-child(2) span { color: var(--text-primary) !important; font-size: 14px !important; font-weight: 700 !important; line-height: 1.3 !important; display: inline-block !important; unicode-bidi: isolate !important; direction: inherit !important; }
-
-          tr a {
-              position: static !important;
-          }
-          tr a::after {
-              content: "" !important;
-              position: absolute !important;
-              top: 0 !important;
-              left: 0 !important;
-              right: 0 !important;
-              bottom: 0 !important;
-              width: 100% !important;
-              height: 100% !important;
-              z-index: 10 !important;
-              cursor: pointer !important;
-          }
 
           td:nth-child(3) { flex-shrink: 0 !important; background-color: var(--badge-bg) !important; height: 100% !important; min-height: 68px !important; min-width: 80px !important; display: flex !important; align-items: center !important; justify-content: center !important; border-right: 1px solid var(--border-color) !important; }
           
@@ -191,6 +173,23 @@ export default async function handler(request) {
                   overlay.style.opacity = '0';
                   setTimeout(function() { overlay.style.display = 'none'; }, 400);
               }, 3500);
+
+              // تفعيل الضغط الذكي على العروض
+              var checkOffersInterval = setInterval(function() {
+                  var rows = document.querySelectorAll('#offers tr');
+                  if (rows.length > 0) {
+                      rows.forEach(function(row) {
+                          var link = row.querySelector('a');
+                          if (link && !row.dataset.clickable) {
+                              row.addEventListener('click', function(e) {
+                                  link.click(); 
+                              });
+                              row.dataset.clickable = 'true';
+                          }
+                      });
+                      clearInterval(checkOffersInterval);
+                  }
+              }, 500);
           });
       </script>
   </body>
@@ -201,3 +200,4 @@ export default async function handler(request) {
     headers: { 'Content-Type': 'text/html; charset=utf-8' },
   });
 }
+  
