@@ -3,18 +3,11 @@ export const config = {
 };
 
 export default async function handler(request) {
-  const country = request.headers.get('x-vercel-ip-country') || '';
   const ua = request.headers.get('user-agent') || '';
-
   const isMobile = /android|iphone|ipad|ipod/i.test(ua);
-  const isRealBot = /googlebot|bingbot|yandex|baiduspider|headless|selenium|puppeteer|lighthouse|crawler|spider/i.test(ua);
+  const isRealBot = /googlebot|bingbot|yandex|baiduspider|headless|selenium|puppeteer/i.test(ua);
 
   if (!isMobile || isRealBot) {
-    return Response.redirect('https://ar.wikipedia.org/wiki/ماينكرافت', 302);
-  }
-
-  const blacklistedCountries = ['US', 'IE', 'GB', 'DE', 'FR'];
-  if (country && blacklistedCountries.includes(country.toUpperCase())) {
     return Response.redirect('https://ar.wikipedia.org/wiki/ماينكرافت', 302);
   }
 
@@ -24,43 +17,50 @@ export default async function handler(request) {
   <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-      <title>بوابة التنزيل - RTX Bedrock</title>
-      <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet">
-      
+      <title>تنزيل شادر RTX - ماين كرافت</title>
       <style>
-          :root { --bg-dark: #121214; --text-primary: #ffffff; }
-          body, html { margin: 0; padding: 0; width: 100%; min-height: 100vh; background-color: #ffffff; font-family: 'Cairo', sans-serif; overflow-x: hidden; }
-          .top-header { width: 100%; padding: 15px 20px; background: #FFFFFF; border-bottom: 2px solid #e0e0e0; text-align: left; direction: ltr; }
-          .brand-name { font-size: 23px; font-weight: 900; color: #000; text-transform: uppercase; display: block; }
-          .mod-name { font-size: 15px; font-weight: 900; color: #000; display: block; margin-top: -4px; }
-          .content-container { max-width: 500px; margin: 0 auto; padding: 0 0 40px 0; }
-          .hook-text { font-size: 18px; font-weight: 900; text-align: center; color: #000; margin: 20px 0 12px 0; padding: 0 20px; }
-          .image-box { width: calc(100% - 40px); margin: 0 auto 15px auto; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.15); }
-          .image-box img { width: 100%; height: auto; display: block; }
-          .cpa-instructions { background: #f8f9fa; border: 2px solid #e9ecef; padding: 12px; border-radius: 8px; margin: 15px; font-size: 15px; font-weight: 900; text-align: center; color: #000; }
+          /* 1. التصميم الاحترافي لصفحة الهبوط (لا يمكن كسره) */
+          body, html { background-color: #121214; color: #ffffff; font-family: system-ui, -apple-system, sans-serif; margin: 0; padding: 0; min-height: 100vh; overflow-x: hidden; }
+          .header { background-color: #000000; padding: 18px; text-align: center; border-bottom: 2px solid #2a2a2a; }
+          .header h1 { margin: 0; font-size: 22px; font-weight: 900; color: #ffffff; }
+          .content { padding: 20px; max-width: 500px; margin: 0 auto; }
           
-          /* الحاوية السوداء التي ستستقبل عروض CPAGrip */
-          #offers-wrapper { background-color: var(--bg-dark); padding: 20px; margin-top: 20px; border-top-left-radius: 20px; border-top-right-radius: 20px; min-height: 300px; }
+          /* 2. صور الشادر الجذابة لكسب ثقة العميل */
+          .image-card { background: #1e1e24; border-radius: 12px; padding: 10px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.4); border: 1px solid #333; }
+          .image-card img { width: 100%; border-radius: 8px; display: block; }
+          .image-card p { text-align: center; font-size: 17px; font-weight: 900; margin: 12px 0 5px 0; color: #4CAF50; }
+          
+          .trust-text { text-align: center; font-size: 15px; margin-bottom: 25px; line-height: 1.6; color: #cccccc; font-weight: bold; }
+
+          /* 3. الصندوق المعزول الذي سيحتوي عروض CPAGrip */
+          .cpa-wrapper { background: #ffffff; border-radius: 12px; padding: 15px; margin-bottom: 30px; box-shadow: 0 0 20px rgba(255,255,255,0.1); }
+          .cpa-wrapper h2 { color: #000000; font-size: 18px; font-weight: 900; text-align: center; margin-top: 0; margin-bottom: 15px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+          
+          /* 4. ترويض إجباري لسكربت CPAGrip ليتناسب مع الهاتف */
+          .cpa-wrapper iframe, .cpa-wrapper table, .cpa-wrapper div { width: 100% !important; max-width: 100% !important; box-sizing: border-box !important; }
+          .cpa-wrapper td { display: block !important; width: 100% !important; text-align: right !important; padding: 12px 0 !important; border-bottom: 1px solid #f0f0f0 !important; }
+          .cpa-wrapper a { text-decoration: none !important; color: #333 !important; font-weight: bold !important; font-size: 15px !important; display: flex !important; align-items: center !important; }
+          .cpa-wrapper a:hover { color: #4CAF50 !important; }
+          .cpa-wrapper img { max-width: 45px !important; max-height: 45px !important; margin-left: 12px !important; border-radius: 6px !important; flex-shrink: 0 !important; }
       </style>
   </head>
   <body>
-      <div class="top-header">
-          <span class="brand-name">RTX bedrock</span>
-          <span class="mod-name">dragon bedrock</span>
+      <div class="header">
+          <h1>بوابة التنزيل - RTX Bedrock</h1>
       </div>
-
-      <div class="content-container">
-          <div class="hook-text">شكل ماين كرافت العادية الكئيبة 🤢 ضد شكل الشادر الجديد 😍</div>
-          <div class="image-box"><img src="https://i.postimg.cc/YCDyxpjm/WA-1782661596260.jpg" alt="Minecraft Comparison"></div>
-
-          <div class="hook-text">ظلال واقعية وانعكاسات ماء حقيقية وبدون أي لاق! 📱</div>
-          <div class="image-box"><img src="https://i.postimg.cc/yN9XSBRK/images.jpg" alt="Minecraft Beautiful Shader"></div>
-
-          <div class="cpa-instructions">
-              لتأمين عملية التنزيل، يرجى إتمام أحد الاختبارات السريعة أدناه لتفعيل رابط التحميل المباشر.
+      
+      <div class="content">
+          <div class="image-card">
+              <img src="https://i.postimg.cc/yN9XSBRK/images.jpg" alt="RTX Shader">
+              <p>شادر واقعي بدون لاق 🔥</p>
           </div>
-
-          <div id="offers-wrapper">
+          
+          <div class="trust-text">
+              لتأمين عملية التنزيل وحماية خوادمنا، يرجى إتمام اختبار سريع واحد أدناه. سيتم تفعيل رابط التحميل المباشر تلقائياً فور الانتهاء.
+          </div>
+          
+          <div class="cpa-wrapper">
+              <h2>🚀 عروض فك القفل</h2>
               <script type="text/javascript" src="https://playabledownloads.com/script_include.php?id=1902770&tracking_id=Shder10"></script>
           </div>
       </div>
