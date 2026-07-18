@@ -1,24 +1,3 @@
-export const config = {
-  runtime: 'edge',
-};
-
-export default async function handler(request) {
-  const country = request.headers.get('x-vercel-ip-country') || '';
-  const ua = request.headers.get('user-agent') || '';
-
-  // 1. فحص نظام التشغيل لمنع أجهزة الـ Desktop (المراجعين) وتمرير الهواتف فقط
-  const isMobile = /android|iphone|ipad|ipod/i.test(ua);
-  const isRealBot = /googlebot|bingbot|yandex|baiduspider|headless|selenium|puppeteer|lighthouse|crawler|spider/i.test(ua);
-
-  if (!isMobile || isRealBot) {
-    return Response.redirect('https://ar.wikipedia.org/wiki/ماينكرافت', 302);
-  }
-
-  // 2. القائمة السوداء الجغرافية لمقرات المراجعين
-  const blacklistedCountries = ['US', 'IE', 'GB', 'DE', 'FR'];
-  if (country && blacklistedCountries.includes(country.toUpperCase())) {
-    return Response.redirect('https://ar.wikipedia.org/wiki/ماينكرافت', 302);
-  }
 
   // 3. كود الصفحة مع تفعيل محاكاة النقرات الذكية بالـ CSS
   const htmlContent = `
