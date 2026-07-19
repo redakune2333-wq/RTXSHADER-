@@ -1,18 +1,19 @@
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
+export const config = {
+  runtime: 'edge', // تشغيل الكود كـ Edge Function لسرعة الاستجابة وفحص الترافيك
+};
 
-export function middleware(request: NextRequest) {
+export default async function handler(request) {
     const userAgent = request.headers.get('user-agent') || '';
 
-    // 1. تحديد وعزل عناكب الفحص والزواحف الآلية التابعة للمنصات
+    // 1. تصفية وعزل زواحف الفحص التلقائي للمنصات
     const isBot = /facebookexternalhit|Facebot|Twitterbot|Slackbot|Discordbot|Googlebot|TelegramBot/i.test(userAgent);
     
     if (isBot) {
-        // توجيه الزاحف الآلي صامتاً إلى الصفحة الآمنة المعتمدة (ويكيبيديا أو صفحة محايدة)
-        return NextResponse.rewrite(new URL('/safe-neutral-page', request.url));
+        // توجيه الزاحف الآلي صامتاً لصفحة ويكيبيديا أو المسار الآمن
+        return Response.redirect('https://ar.wikipedia.org', 302);
     }
 
-    // 2. معالجة طلبات المستخدمين الحقيقيين من داخل إنستغرام وفيسبوك
+    // 2. رصد ترافيك إنستغرام وفيسبوك للحملة
     const isInstagram = userAgent.includes('Instagram');
     const isFacebook = userAgent.includes('FBAN') || userAgent.includes('FBAV');
 
@@ -21,26 +22,24 @@ export function middleware(request: NextRequest) {
         const isIOS = /iPhone|iPad|iPod/i.test(userAgent);
 
         if (isAndroid) {
-            // مستخدم أندرويد حقيقي: إجباره على الخروج لمتصفح كروم الخارجي فوراً
-            const host = request.nextUrl.host;
-            const path = request.nextUrl.pathname;
-            const search = request.nextUrl.search;
-            const cleanUrl = `${host}${path}${search}`;
-            
+            // إجبار الأندرويد على الخروج لمتصفح كروم الخارجي
+            const url = new URL(request.url);
+            const cleanUrl = url.host + url.pathname + url.search;
             const androidIntent = `intent://${cleanUrl}#Intent; scheme=https; package=com.android.chrome; end;`;
-            return NextResponse.redirect(new URL(androidIntent));
+            
+            return Response.redirect(androidIntent, 302);
         }
 
         if (isIOS) {
-            // مستخدم آيفون حقيقي: توجيهه لصفحة تحتوي على سكريبت الإرشاد اليدوي للخروج
-            return NextResponse.rewrite(new URL('/cpa-offers-ios-escape', request.url));
+            // توجيه مستخدم الآيفون لصفحة الإرشاد اليدوي (مثلاً صفحة اسمها ios.html)
+            const url = new URL(request.url);
+            url.pathname = '/ios.html'; 
+            return Response.redirect(url.toString(), 302);
         }
     }
 
-    // الترافيك الطبيعي القادم من المتصفحات الأساسية للجهاز يدخل مباشرة
-    return NextResponse.next();
+    // الترافيك الطبيعي يمر بسلام لصفحة الهبوط الرئيسية الخاصة بك
+    const url = new URL(request.url);
+    url.pathname = '/landing.html'; // استبدل هذا باسم ملف صفحة الهبوط الحقيقي لديك
+    return Response.redirect(url.toString(), 302);
 }
-
-export const config = {
-    matcher: ['/'],
-};
