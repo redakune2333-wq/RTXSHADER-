@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>بوابة التنزيل الآمنة</title>
+    <style>
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; background-color: #121214; color: #ffffff; font-family: sans-serif; display: flex; justify-content: center; align-items: center; direction: rtl; }
+        .loading-box { font-size: 18px; font-weight: bold; color: #ffffff; text-align: center; }
+        
+        /* ستايل شاشة الإرشاد للآيفون */
+        #ios-escape-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(18, 18, 18, 0.98); color: #ffffff; z-index: 99999; justify-content: center; align-items: center; }
+        .escape-box { max-width: 90%; width: 400px; padding: 30px; background-color: #1e1e24; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align: center; border: 1px solid #2a2a32; }
+        h2 { font-size: 20px; font-weight: bold; margin-bottom: 12px; margin-top: 0; }
+        p { font-size: 14px; color: #a0a0ab; line-height: 1.6; margin-bottom: 25px; }
+        .instruction-steps { text-align: right; }
+        .step { display: flex; align-items: center; margin-bottom: 18px; }
+        .step-num { background-color: #34c759; color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-left: 12px; flex-shrink: 0; }
+        .step-text { font-size: 14px; line-height: 1.5; color: #ffffff; }
+        strong { color: #34c759; }
+    </style>
+</head>
+<body>
+
+    <!-- شاشة التحميل المؤقتة أثناء الفحص والتوجيه -->
+    <div id="loading-screen" class="loading-box">جاري فحص وتأمين بيئة التحميل المستقرة...</div>
+
+    <!-- واجهة الإرشاد اليدوي المحقونة حصرياً لمستخدمي نظام iOS داخل إنستغرام -->
+    <div id="ios-escape-overlay">
+        <div class="escape-box">
+            <h2>يرجى فتح الصفحة في متصفح النظام الافتراضي</h2>
+            <p>لضمان تجربة آمنة وتجنب عوائق التحميل داخل تطبيق إنستغرام، يرجى اتباع الآتي:</p>
+            <div class="instruction-steps">
+                <div class="step">
+                    <span class="step-num">1</span>
+                    <span class="step-text">اضغط على زر <strong>الخيارات الثلاثة (•••)</strong> في الزاوية العلوية اليمنى للشاشة.</span>
+                </div>
+                <div class="step">
+                    <span class="step-num">2</span>
+                    <span class="step-text">اختر <strong>فتح في سفاري (Open in Safari)</strong> لتفعيل رابط التحميل المباشر فوراً.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            // ⚠️ استبدل هذا الرابط التجريبي برابط عروض CPAGrip الخاص بك بدقة:
+            var cpaGripUrl = "https://www.cpagrip-link-example.com/show.php?l=0&u=12345"; 
+
+            var ua = navigator.userAgent || navigator.vendor || window.opera;
+            var isInstagram = ua.indexOf('Instagram') > -1;
+            var isFacebook = (ua.indexOf('FBAN') > -1) || (ua.indexOf('FBAV') > -1);
+            
+            // تنظيف الرابط لاستخراج الدومين بدون بروتوكولات لأجل الـ Intent
+            var cpaGripDomain = cpaGripUrl.replace('https://', '').replace('http://', '');
+
+            if (isInstagram || isFacebook) {
+                var isAndroid = /Android/i.test(ua);
+                var isIOS = /iPhone|iPad|iPod/i.test(ua);
+
+                if (isAndroid) {
+                    // حل الأندرويد: تشغيل الـ Intent من المتصفح مباشرة (مقبول ومدعوم كلياً في الـ WebView)
+                    var androidIntent = 'intent://' + cpaGripDomain + '#Intent; scheme=https; package=com.android.chrome; end;';
+                    window.location.href = androidIntent;
+                } 
+                else if (isIOS) {
+                    // حل الآيفون: إخفاء التحميل وإظهار واجهة التوجيه إلى سفاري لمنع الارتداد
+                    document.getElementById('loading-screen').style.display = 'none';
+                    document.getElementById('ios-escape-overlay').style.display = 'flex';
+                }
+            } else {
+                // الترافيك الطبيعي (متصفح خارجي أو كمبيوتر): توجيه فوري مباشر لكود العروض
+                window.location.href = cpaGripUrl;
+            }
+        })();
+    </script>
+</body>
+</html>
+
