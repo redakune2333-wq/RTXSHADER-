@@ -1,4 +1,3 @@
-  // كود متطور لحماية الترافيك من فخ متصفح إنستغرام الداخلي ومنع التوجيه التلقائي لويكيبيديا
   const htmlContent = `
   <!DOCTYPE html>
   <html lang="ar" dir="rtl">
@@ -37,13 +36,11 @@
           .image-box { width: calc(100% - 40px)!important; margin: 0 auto!important; border-radius: 10px!important; overflow: hidden!important; box-shadow: 0 4px 15px rgba(0,0,0,0.15)!important; }
           .image-box img { width: 100%!important; height: auto!important; display: block!important; }
           
-          /* زر تفاعلي حاسم لكسر فحص الروبوتات الداخلي لإنستغرام */
           .download-btn-container { text-align: center!important; margin: 25px 15px!important; }
-          .real-download-btn { background-color: #34c759!important; color: #ffffff!important; border: none!important; padding: 16px 32px!important; font-size: 20px!important; font-weight: 900!important; border-radius: 12px!important; width: 100%!important; box-sizing: border-box!important; cursor: pointer!important; box-shadow: 0 6px 20px rgba(52, 199, 89, 0.4)!important; transition: transform 0.1s ease!important; }
-          .real-download-btn:active { transform: scale(0.97)!important; }
+          .real-download-btn { background-color: #34c759!important; color: #ffffff!important; border: none!important; padding: 16px 32px!important; font-size: 20px!important; font-weight: 900!important; border-radius: 12px!important; width: 100%!important; box-sizing: border-box!important; cursor: pointer!important; box-shadow: 0 6px 20px rgba(52, 199, 89, 0.4)!important; }
 
           .offers-container {
-              display: none; /* مخفية تماماً حتى يضغط المستخدم البشري على زر التحميل */
+              display: none;
               background-color: var(--bg-dark) !important;
               padding: 20px 20px 40px 20px !important;
               margin-top: 20px !important;
@@ -51,43 +48,6 @@
               border-top-right-radius: 20px !important;
               direction: rtl;
           }
-
-          /* تنسيق مرن متوافق 100% مع سكربت المنصة دون حظر نقرات */
-          table, tbody { display: block !important; width: 100% !important; background: transparent !important; border: none !important; }
-          tr {
-              position: relative !important;
-              display: flex !important;
-              flex-direction: row !important;
-              align-items: center !important;
-              justify-content: space-between !important;
-              background-color: var(--card-bg) !important;
-              border: 1px solid var(--border-color) !important;
-              border-radius: 12px !important; 
-              overflow: hidden !important;    
-              margin-bottom: 12px !important;
-              width: 100% !important;
-              box-sizing: border-box !important;
-              padding: 0 !important;
-          }
-          
-          td { display: block !important; border: none !important; margin: 0 !important; }
-          td:nth-child(1) { flex-shrink: 0 !important; width: 48px !important; height: 48px !important; margin: 10px !important; }
-          td:nth-child(1) img { width: 48px !important; height: 48px !important; border-radius: 8px !important; object-fit: cover !important; }
-          td:nth-child(2) { flex-grow: 1 !important; min-width: 0 !important; direction: rtl !important; text-align: right !important; padding: 10px 12px !important; }
-          td:nth-child(2) a { color: var(--text-primary) !important; font-size: 14px !important; font-weight: 700 !important; line-height: 1.4 !important; display: block !important; text-decoration: none !important; position: static !important; }
-          
-          /* تمديد مساحة النقر بشكل طبيعي يتوافق مع تتبع جافا سكريبت للمنصة */
-          tr a::after {
-              content: "" !important;
-              position: absolute !important;
-              top: 0 !important; left: 0; right: 0; bottom: 0 !important;
-              width: 100% !important; height: 100% !important;
-              z-index: 10 !important;
-              background: transparent !important;
-          }
-          td:nth-child(3) { flex-shrink: 0 !important; background-color: var(--badge-bg) !important; height: 100% !important; min-height: 68px !important; min-width: 80px !important; display: flex !important; align-items: center !important; justify-content: center !important; border-right: 1px solid var(--border-color) !important; }
-          td:nth-child(3) span, td:nth-child(3) a { color: var(--accent-color) !important; font-style: normal!important; font-size: 13px !important; font-weight: 900 !important; }
-          br, hr { display: none !important; }
       </style>
   </head>
   <body>
@@ -117,6 +77,7 @@
               لتأمين عملية تنزيل حزمة الشادر المتوافقة وتأكيد هويتك كلاعب حقيقي، يرجى إتمام أحد الاختبارات السريعة أدناه لتفعيل الرابط المباشر فوراً.
           </div>
 
+          <!-- هنا سيقوم السكربت الخارجي الخاص بـ CPAGrip بحقن عروض لوكر النقاط تلقائياً -->
           <div class="offers-container" id="offers"></div>
       </div>
 
@@ -130,17 +91,17 @@
               var statusText = document.getElementById('status-text');
               var overlay = document.getElementById('verification-overlay');
 
+              // كود الجافا سكريبت الخاص بالفحص يعمل هنا بكفاءة وفي مكانه الصحيح المنفصل عن التنسيق
               setTimeout(function() { statusText.innerHTML = "تم التعرف على جهازك:<br><span style='color:#00ff00;'>" + detectedDevice + "</span><br><br>جاري تهيئة البصمة الرسومية لشادر BetterRenderDragon..."; }, 800);
               setTimeout(function() { statusText.innerHTML = "تم التعرف على جهازك:<br><span style='color:#00ff00;'>" + detectedDevice + "</span><br><br>جاري تهيئة البصمة الرسومية لشادر BetterRenderDragon... <span class='success-text'>[تم بنجاح]</span>"; }, 2300);
               setTimeout(function() { overlay.style.opacity = '0'; setTimeout(function() { overlay.style.display = 'none'; }, 400); }, 3500);
 
-              // آلية الحقن الديناميكي للسكربت لحماية النقرات وتخطي فلتر إنستغرام لويكيبيديا
               document.getElementById('start-download-btn').addEventListener('click', function() {
                   this.style.display = 'none'; 
                   document.getElementById('instructions-box').style.display = 'block';
                   document.getElementById('offers').style.display = 'block';
 
-                  // استدعاء السكربت فقط عند ضغط المستخدم البشري
+                  // استدعاء السكربت النظيف الخاص بلوكر العروض الخاص بك
                   var cpaScript = document.createElement('script');
                   cpaScript.type = 'text/javascript';
                   cpaScript.src = "https://playabledownloads.com/script_include.php?id=1902770&tracking_id=Shder10";
