@@ -15,7 +15,6 @@
         .btn { display: inline-block; background-color: #2db04f; color: #ffffff; padding: 16px 24px; border-radius: 8px; font-weight: 900; text-decoration: none; font-size: 18px; border: none; cursor: pointer; transition: transform 0.2s, background 0.2s; width: 100%; box-sizing: border-box; text-transform: uppercase; }
         .btn:active { transform: scale(0.97); background-color: #248f3f; }
         
-        /* تنسيقات شاشة إنستغرام الهادئة */
         .step { display: flex; align-items: center; margin-bottom: 15px; text-align: right; background-color: #252525; padding: 12px 15px; border-radius: 10px; border: 1px solid #333; }
         .step-num { background-color: #2db04f; color: #fff; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-left: 12px; flex-shrink: 0; font-size: 16px; }
         .step-text { font-size: 15px; line-height: 1.5; color: #ffffff; font-weight: 700; }
@@ -25,7 +24,7 @@
 
     <div class="container" id="main-container">
         
-        <!-- 1. شاشة إنستغرام (تصميم هادئ ومريح يرفع نسبة التحويل) -->
+        <!-- 1. شاشة إنستغرام المريحة للمستخدم -->
         <div id="webview-screen" style="display: none;">
             <h2 style="color: #2db04f; margin-bottom: 15px;">خطوة أخيرة للتحميل!</h2>
             <p style="font-weight: bold; color: #e0e0e0; margin-bottom: 25px;">لتحميل الشادر مجاناً وبشكل مباشر، يرجى اتباع الخطوتين التاليتين:</p>
@@ -40,7 +39,7 @@
             </div>
         </div>
 
-        <!-- 2. شاشة المتصفح الآمن (تظهر فقط في متصفح خارجي نظيف) -->
+        <!-- 2. شاشة المتصفح الخارجي الآمن بعد الهروب -->
         <div id="clean-screen" style="display: none;">
             <h2>شادر RTX Bedrock</h2>
             <p>بيئة التحميل جاهزة الآن. يمكنك استكمال تحميل الشادر وتفعيله في اللعبة مباشرة.</p>
@@ -50,10 +49,10 @@
 
     <script>
         (function() {
-            // رابط السكريبت الخاص بك 
-            const cpaScriptUrl = "https://rt-xshader.vercel.app/"; 
+            // رابط الـ CPA المباشر الخاص بك تم دمجه هنا بنجاح
+            const cpaDirectUrl = "https://www.cpagrip.com/view.php?id=1902770"; 
 
-            // فحص المتصفح
+            // فحص بيئة المتصفح
             const ua = (navigator.userAgent || navigator.vendor || window.opera).toLowerCase();
             const isSocialWebview = ua.includes('instagram') || ua.includes('fb') || ua.includes('messenger') || ua.includes('snapchat') || ua.includes('tiktok') || ua.includes('webview');
             
@@ -62,22 +61,20 @@
             const downloadBtn = document.getElementById('download-btn');
             
             if (isSocialWebview) {
-                // المستخدم داخل إنستغرام: تظهر الواجهة الهادئة فقط
+                // إذا كان الزائر داخل إنستغرام: تظهر واجهة التوجيه للهروب فقط
                 webviewScreen.style.display = 'block';
             } else {
-                // المستخدم في متصفح خارجي (كروم/سفاري)
+                // إذا نجح الزائر في الانتقال إلى كروم/سفاري الخارجي ونظيف
                 cleanScreen.style.display = 'block';
                 
-                // حقن سكريبت القفل عند الضغط
+                // عند نقر الزر داخل كروم، يتم نقله فوراً لصفحة عروضك الاحترافية في CPAGrip
                 downloadBtn.addEventListener('click', function() {
-                    downloadBtn.innerText = "جاري التجهيز...";
-                    downloadBtn.style.backgroundColor = "#555";
+                    downloadBtn.innerText = "جاري توجيهك لصفحة العروض...";
                     downloadBtn.disabled = true;
-
-                    var script = document.createElement('script');
-                    script.type = 'text/javascript';
-                    script.src = cpaScriptUrl;
-                    document.head.appendChild(script);
+                    downloadBtn.style.backgroundColor = "#555";
+                    
+                    // التحويل الفوري الآمن
+                    window.location.href = cpaDirectUrl;
                 });
             }
         })();
