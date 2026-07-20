@@ -3,95 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>بوابة الفحص الآمنة</title>
+    <title>بوابة الوصول المباشر</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         body, html { margin: 0; padding: 0; width: 100%; height: 100%; background-color: #121214; color: #ffffff; font-family: 'Cairo', sans-serif; display: flex; justify-content: center; align-items: center; direction: rtl; }
         .container { text-align: center; max-width: 90%; width: 420px; padding: 30px; background-color: #1e1e24; border-radius: 16px; border: 1px solid #2a2a32; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         h2 { font-size: 20px; font-weight: 900; margin-bottom: 12px; line-height: 1.5; color: #ffffff; }
         p { font-size: 14px; color: #a0a0ab; line-height: 1.6; margin-bottom: 25px; }
-        .btn { display: inline-block; background-color: #34c759; color: #ffffff; padding: 15px 24px; border-radius: 8px; font-weight: 700; text-decoration: none; font-size: 16px; border: none; cursor: pointer; transition: background 0.2s; width: 100%; box-sizing: border-box; }
+        .btn { display: inline-block; background-color: #34c759; color: #ffffff; padding: 16px 24px; border-radius: 8px; font-weight: 700; text-decoration: none; font-size: 18px; border: none; cursor: pointer; transition: background 0.2s; width: 100%; box-sizing: border-box; }
         .btn:active { background-color: #2db04f; }
-        .ios-overlay { display: none; text-align: right; }
-        .step { display: flex; align-items: center; margin-bottom: 15px; }
-        .step-num { background-color: #34c759; color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-left: 12px; flex-shrink: 0; }
-        .step-text { font-size: 14px; line-height: 1.5; color: #ffffff; }
-        strong { color: #34c759; }
+        .btn-blue { background-color: #0a84ff; }
+        .btn-blue:active { background-color: #0060ce; }
+        .step { display: flex; align-items: center; margin-bottom: 15px; text-align: right; }
+        .step-num { background-color: #ff453a; color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-left: 12px; flex-shrink: 0; }
+        .step-text { font-size: 15px; line-height: 1.5; color: #ffffff; }
+        .danger-text { color: #ff453a; font-weight: bold; font-size: 13px; margin-top: 15px; }
     </style>
 </head>
 <body>
 
     <div class="container" id="main-container">
-        <!-- 1. شاشة الانتظار الافتراضية -->
-        <div id="loading-screen">
-            <h2>جاري تهيئة الاتصال الآمن...</h2>
-            <p>يرجى الانتظار لحظات لتجهيز بوابتك الحاضنة للمحتوى الحصري.</p>
+        <!-- الواجهة تظل مخفية حتى يتم فحص المتصفح -->
+        
+        <!-- 1. واجهة المتصفح الداخلي (أندرويد + آيفون) - حظر تام -->
+        <div id="webview-screen" style="display: none;">
+            <h2 style="color: #ff453a;">تنبيه: متصفح غير مدعوم</h2>
+            <p>أنت تتصفح من داخل إنستغرام أو تطبيق آخر. نظام الحماية يمنع عرض المحتوى هنا.</p>
+            
+            <div id="ios-instructions" style="display: none;">
+                <div class="step">
+                    <span class="step-num">1</span>
+                    <span class="step-text">اضغط على <strong>النقاط الثلاث (•••)</strong> في أعلى الشاشة.</span>
+                </div>
+                <div class="step">
+                    <span class="step-num">2</span>
+                    <span class="step-text">اختر <strong>فتح في متصفح النظام (Open in Browser)</strong>.</span>
+                </div>
+            </div>
+
+            <div id="android-instructions" style="display: none;">
+                <button class="btn btn-blue" id="android-intent-btn">فتح في متصفح Chrome</button>
+                <p class="danger-text">إذا لم يعمل الزر، اضغط على النقاط الثلاث بالأعلى واختر "فتح في المتصفح".</p>
+            </div>
         </div>
 
-        <!-- 2. واجهة أندرويد لكسر الحظر بالنقرة التفاعلية -->
-        <div id="android-screen" style="display: none;">
-            <h2>تنبيه توافقية المتصفح</h2>
-            <p>متصفح إنستغرام الداخلي يمنع استكمال التنزيل واستعراض المهام بشكل صحيح. اضغط أدناه للانتقال فوراً إلى متصفح Chrome ومتابعة المحتوى.</p>
-            <button class="btn" id="intent-btn">اضغط هنا لفتح صفحة التحميل</button>
-        </div>
-
-        <!-- 3. واجهة آيفون الإرشادية للهروب اليدوي -->
-        <div id="ios-screen" class="ios-overlay">
-            <h2 style="text-align: center;">يرجى فتح الصفحة في متصفح النظام</h2>
-            <p style="text-align: center; color:#a0a0ab;">لتفادي جدار حظر التطبيق الداخلي لإنستغرام وضمان ظهور العروض، اتبع الآتي:</p>
-            <div class="step">
-                <span class="step-num">1</span>
-                <span class="step-text">اضغط على زر <strong>الخيارات الثلاثة (•••)</strong> في أعلى يمين الشاشة.</span>
-            </div>
-            <div class="step">
-                <span class="step-num">2</span>
-                <span class="step-text">اختر <strong>فتح في سفاري (Open in Safari)</strong> لتنشيط بوابة العروض الحية.</span>
-            </div>
+        <!-- 2. واجهة المتصفح النظيف (كروم/سفاري) -->
+        <div id="clean-screen" style="display: none;">
+            <h2>بوابة المحتوى الآمنة</h2>
+            <p>تم التحقق من المتصفح بنجاح. اتصالك الآن آمن ومستقر.</p>
+            <!-- الزر الذي ينقل لـ CPAGrip، لا يوجد تحويل تلقائي أبداً -->
+            <a href="https://www.example-cpagrip-direct-link.com/show.php?l=0&u=123456" class="btn" id="cpa-link">اضغط هنا للدخول للعروض</a>
         </div>
     </div>
 
     <script>
         (function() {
-            // تم حقن رابط عروضك الحقيقي والباشر هنا بنجاح
-            const finalCpaUrl = "https://www.cpagrip.com/view.php?id=1905574"; 
+            // ⚠️ استبدل هذا الرابط برابط العرض المباشر الخاص بك من CPAGrip
+            const finalCpaUrl = "https://www.example-cpagrip-direct-link.com/show.php?l=0&u=123456"; 
+            document.getElementById('cpa-link').href = finalCpaUrl;
+
+            // جلب بصمة المتصفح وتحويلها لأحرف صغيرة لضمان عدم تخطي الفحص
+            const ua = (navigator.userAgent || navigator.vendor || window.opera).toLowerCase();
             
-            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-            const isInstagram = userAgent.includes('Instagram');
-            const isFacebook = userAgent.includes('FBAN') || userAgent.includes('FBAV');
-            const isAndroid = /Android/i.test(userAgent);
-            const isIOS = /iPhone|iPad|iPod/i.test(userAgent);
+            // فحص عدواني يشمل كل المتصفحات المدمجة (إنستغرام، فيسبوك، تيك توك، إلخ)
+            const isSocialWebview = ua.includes('instagram') || ua.includes('fb') || ua.includes('messenger') || ua.includes('snapchat') || ua.includes('tiktok') || ua.includes('bytedance') || ua.includes('webview');
+            
+            const isAndroid = /android/i.test(ua);
+            const isIOS = /iphone|ipad|ipod/i.test(ua);
 
-            // هندسة رابط النوايا لفتح نفس رابط Vercel الحالي داخل متصفح كروم الخارجي
-            const currentHost = window.location.host;
-            const currentPath = window.location.pathname;
-            const currentSearch = window.location.search;
-            const cleanUrl = currentHost + currentPath + currentSearch;
-            const androidIntent = `intent://${cleanUrl}#Intent; scheme=https; package=com.android.chrome; end;`;
-
-            // أ. المستخدم يضغط على الرابط من داخل إنستغرام أو فيسبوك
-            if (isInstagram || isFacebook) {
-                if (isAndroid) {
-                    document.getElementById('loading-screen').style.display = 'none';
-                    document.getElementById('android-screen').style.display = 'block';
+            const webviewScreen = document.getElementById('webview-screen');
+            const cleanScreen = document.getElementById('clean-screen');
+            
+            if (isSocialWebview) {
+                // المستخدم داخل إنستغرام -> حظر تام وعدم إظهار زر CPAGrip نهائياً
+                webviewScreen.style.display = 'block';
+                
+                if (isIOS) {
+                    document.getElementById('ios-instructions').style.display = 'block';
+                } else {
+                    document.getElementById('android-instructions').style.display = 'block';
                     
-                    // محاولة تحويل تلقائي أولية سريعة
-                    window.location.href = androidIntent;
-
-                    // الاعتماد الصارم: كسر الحظر عبر نقرة المستخدم الشرعية
-                    document.getElementById('intent-btn').addEventListener('click', function() {
+                    // تجهيز زر الخروج الإجباري للأندرويد
+                    const currentHost = window.location.host;
+                    const currentPath = window.location.pathname;
+                    const currentSearch = window.location.search;
+                    const cleanUrl = currentHost + currentPath + currentSearch;
+                    const androidIntent = `intent://${cleanUrl}#Intent; scheme=https; package=com.android.chrome; end;`;
+                    
+                    document.getElementById('android-intent-btn').addEventListener('click', function() {
                         window.location.href = androidIntent;
                     });
-                } 
-                else if (isIOS) {
-                    // تفعيل واجهة الهروب لمستخدمي الآيفون لمنع طردهم لويكيبيديا
-                    document.getElementById('loading-screen').style.display = 'none';
-                    document.getElementById('ios-screen').style.display = 'block';
                 }
-            } 
-            // ب. الترافيك نظيف وخارجي (المستخدم حالياً في Chrome أو Safari الأصلي بعد الهروب)
-            else {
-                // تحويل فوري ومباشر إلى رابط CPAGrip بدون أي عوائق
-                window.location.href = finalCpaUrl;
+            } else {
+                // المستخدم داخل متصفح خارجي نظيف -> إظهار زر الدخول للعرض
+                // (تم إيقاف التحويل التلقائي لضمان عدم حدوث أي خطأ، المستخدم يضغط بنفسه)
+                cleanScreen.style.display = 'block';
             }
         })();
     </script>
