@@ -3,101 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>بوابة الوصول المباشر</title>
+    <title>تحميل شادر RTX ماينكرافت بـيدروك</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        body, html { margin: 0; padding: 0; width: 100%; height: 100%; background-color: #121214; color: #ffffff; font-family: 'Cairo', sans-serif; display: flex; justify-content: center; align-items: center; direction: rtl; }
-        .container { text-align: center; max-width: 90%; width: 420px; padding: 30px; background-color: #1e1e24; border-radius: 16px; border: 1px solid #2a2a32; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        h2 { font-size: 20px; font-weight: 900; margin-bottom: 12px; line-height: 1.5; color: #ffffff; }
-        p { font-size: 14px; color: #a0a0ab; line-height: 1.6; margin-bottom: 25px; }
-        .btn { display: inline-block; background-color: #34c759; color: #ffffff; padding: 16px 24px; border-radius: 8px; font-weight: 700; text-decoration: none; font-size: 18px; border: none; cursor: pointer; transition: background 0.2s; width: 100%; box-sizing: border-box; }
-        .btn:active { background-color: #2db04f; }
-        .btn-blue { background-color: #0a84ff; }
-        .btn-blue:active { background-color: #0060ce; }
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; background-color: #1a1a1a; color: #ffffff; font-family: 'Cairo', sans-serif; display: flex; justify-content: center; align-items: center; direction: rtl; }
+        /* خلفية مخصصة لتوحي بأنها صفحة ماينكرافت */
+        body { background-image: linear-gradient(rgba(26, 26, 26, 0.9), rgba(26, 26, 26, 0.9)), url('https://images.unsplash.com/photo-1605379399642-870262d3d051?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'); background-size: cover; background-position: center; }
+        
+        .container { text-align: center; max-width: 90%; width: 420px; padding: 35px 25px; background-color: rgba(30, 30, 36, 0.95); border-radius: 16px; border: 2px solid #2db04f; box-shadow: 0 10px 40px rgba(0,0,0,0.8); backdrop-filter: blur(5px); }
+        h2 { font-size: 22px; font-weight: 900; margin-bottom: 10px; line-height: 1.4; color: #ffffff; }
+        p { font-size: 15px; color: #c8c8d0; line-height: 1.6; margin-bottom: 25px; }
+        
+        .btn { display: inline-block; background-color: #2db04f; color: #ffffff; padding: 16px 24px; border-radius: 8px; font-weight: 900; text-decoration: none; font-size: 18px; border: none; cursor: pointer; transition: transform 0.2s, background 0.2s; width: 100%; box-sizing: border-box; text-transform: uppercase; }
+        .btn:active { transform: scale(0.97); background-color: #248f3f; }
+        
+        /* تنسيقات شاشة الحظر الخاصة بإنستغرام */
+        .danger-box { background-color: rgba(255, 69, 58, 0.1); border: 1px solid #ff453a; padding: 20px; border-radius: 12px; margin-bottom: 20px; }
+        .danger-box h3 { color: #ff453a; margin-top: 0; margin-bottom: 10px; font-size: 18px; }
         .step { display: flex; align-items: center; margin-bottom: 15px; text-align: right; }
-        .step-num { background-color: #ff453a; color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-left: 12px; flex-shrink: 0; }
-        .step-text { font-size: 15px; line-height: 1.5; color: #ffffff; }
-        .danger-text { color: #ff453a; font-weight: bold; font-size: 13px; margin-top: 15px; }
+        .step-num { background-color: #ff453a; color: #fff; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-left: 12px; flex-shrink: 0; font-size: 16px; }
+        .step-text { font-size: 15px; line-height: 1.5; color: #ffffff; font-weight: 700; }
     </style>
 </head>
 <body>
 
     <div class="container" id="main-container">
-        <!-- الواجهة تظل مخفية حتى يتم فحص المتصفح -->
         
-        <!-- 1. واجهة المتصفح الداخلي (أندرويد + آيفون) - حظر تام -->
+        <!-- 1. شاشة إنستغرام (تظهر فقط إذا كان المستخدم داخل التطبيق) -->
         <div id="webview-screen" style="display: none;">
-            <h2 style="color: #ff453a;">تنبيه: متصفح غير مدعوم</h2>
-            <p>أنت تتصفح من داخل إنستغرام أو تطبيق آخر. نظام الحماية يمنع عرض المحتوى هنا.</p>
-            
-            <div id="ios-instructions" style="display: none;">
-                <div class="step">
-                    <span class="step-num">1</span>
-                    <span class="step-text">اضغط على <strong>النقاط الثلاث (•••)</strong> في أعلى الشاشة.</span>
-                </div>
-                <div class="step">
-                    <span class="step-num">2</span>
-                    <span class="step-text">اختر <strong>فتح في متصفح النظام (Open in Browser)</strong>.</span>
-                </div>
+            <div class="danger-box">
+                <h3>عذراً، التحميل محظور هنا!</h3>
+                <p style="margin-bottom: 0; color: #fff;">متصفح إنستغرام الداخلي يمنع تنزيل ملفات الشادر (Shaders) ويحظر روابط التحميل.</p>
             </div>
-
-            <div id="android-instructions" style="display: none;">
-                <button class="btn btn-blue" id="android-intent-btn">فتح في متصفح Chrome</button>
-                <p class="danger-text">إذا لم يعمل الزر، اضغط على النقاط الثلاث بالأعلى واختر "فتح في المتصفح".</p>
+            
+            <p style="font-weight: bold; color: #2db04f;">لتحميل الشادر مجاناً، اتبع الخطوتين التاليتين:</p>
+            
+            <div class="step">
+                <span class="step-num">1</span>
+                <span class="step-text">اضغط على زر <strong>الخيارات (•••) أو (⋮)</strong> في أعلى الشاشة.</span>
+            </div>
+            <div class="step">
+                <span class="step-num">2</span>
+                <span class="step-text">اختر <strong>"فتح في المتصفح"</strong> (Open in Browser) أو (Open in Chrome/Safari).</span>
             </div>
         </div>
 
-        <!-- 2. واجهة المتصفح النظيف (كروم/سفاري) -->
+        <!-- 2. شاشة المتصفح الآمن (تظهر فقط في متصفح خارجي نظيف) -->
         <div id="clean-screen" style="display: none;">
-            <h2>بوابة المحتوى الآمنة</h2>
-            <p>تم التحقق من المتصفح بنجاح. اتصالك الآن آمن ومستقر.</p>
-            <!-- الزر الذي ينقل لـ CPAGrip، لا يوجد تحويل تلقائي أبداً -->
-            <a href="https://www.example-cpagrip-direct-link.com/show.php?l=0&u=123456" class="btn" id="cpa-link">اضغط هنا للدخول للعروض</a>
+            <h2>شادر RTX Bedrock</h2>
+            <p>تم فحص المتصفح. يمكنك الآن استكمال تحميل الشادر وتفعيله في اللعبة.</p>
+            <button id="download-btn" class="btn">اضغط هنا لتحميل الشادر</button>
         </div>
     </div>
 
     <script>
         (function() {
-            // ⚠️ استبدل هذا الرابط برابط العرض المباشر الخاص بك من CPAGrip
-            const finalCpaUrl = "https://www.example-cpagrip-direct-link.com/show.php?l=0&u=123456"; 
-            document.getElementById('cpa-link').href = finalCpaUrl;
+            // ⚠️ قم بوضع رابط السكريبت الخاص بك هنا (بين علامات التنصيص)
+            const cpaScriptUrl = "https://playabledownloads.com/script_include.php?id=1902770&tracking_id="; 
 
-            // جلب بصمة المتصفح وتحويلها لأحرف صغيرة لضمان عدم تخطي الفحص
+            // فحص المتصفح
             const ua = (navigator.userAgent || navigator.vendor || window.opera).toLowerCase();
+            const isSocialWebview = ua.includes('instagram') || ua.includes('fb') || ua.includes('messenger') || ua.includes('snapchat') || ua.includes('tiktok') || ua.includes('webview');
             
-            // فحص عدواني يشمل كل المتصفحات المدمجة (إنستغرام، فيسبوك، تيك توك، إلخ)
-            const isSocialWebview = ua.includes('instagram') || ua.includes('fb') || ua.includes('messenger') || ua.includes('snapchat') || ua.includes('tiktok') || ua.includes('bytedance') || ua.includes('webview');
-            
-            const isAndroid = /android/i.test(ua);
-            const isIOS = /iphone|ipad|ipod/i.test(ua);
-
             const webviewScreen = document.getElementById('webview-screen');
             const cleanScreen = document.getElementById('clean-screen');
+            const downloadBtn = document.getElementById('download-btn');
             
             if (isSocialWebview) {
-                // المستخدم داخل إنستغرام -> حظر تام وعدم إظهار زر CPAGrip نهائياً
+                // المستخدم داخل إنستغرام: نعرض واجهة التعليمات اليدوية للهروب
+                // لاحظ: لا يوجد أي حقن لسكريبت CPAGrip هنا إطلاقاً، السيرفر لن يعلم بوجود الزائر.
                 webviewScreen.style.display = 'block';
-                
-                if (isIOS) {
-                    document.getElementById('ios-instructions').style.display = 'block';
-                } else {
-                    document.getElementById('android-instructions').style.display = 'block';
-                    
-                    // تجهيز زر الخروج الإجباري للأندرويد
-                    const currentHost = window.location.host;
-                    const currentPath = window.location.pathname;
-                    const currentSearch = window.location.search;
-                    const cleanUrl = currentHost + currentPath + currentSearch;
-                    const androidIntent = `intent://${cleanUrl}#Intent; scheme=https; package=com.android.chrome; end;`;
-                    
-                    document.getElementById('android-intent-btn').addEventListener('click', function() {
-                        window.location.href = androidIntent;
-                    });
-                }
             } else {
-                // المستخدم داخل متصفح خارجي نظيف -> إظهار زر الدخول للعرض
-                // (تم إيقاف التحويل التلقائي لضمان عدم حدوث أي خطأ، المستخدم يضغط بنفسه)
+                // المستخدم في متصفح خارجي (كروم/سفاري)
                 cleanScreen.style.display = 'block';
+                
+                // عند الضغط على زر التحميل، نقوم بحقن سكريبت القفل (Content Locker) ديناميكياً
+                downloadBtn.addEventListener('click', function() {
+                    downloadBtn.innerText = "جاري التجهيز...";
+                    downloadBtn.style.backgroundColor = "#555";
+                    downloadBtn.disabled = true;
+
+                    // حقن السكريبت
+                    var script = document.createElement('script');
+                    script.type = 'text/javascript';
+                    script.src = cpaScriptUrl;
+                    document.head.appendChild(script);
+                });
             }
         })();
     </script>
