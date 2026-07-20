@@ -6,22 +6,18 @@
     <title>تحميل شادر RTX ماينكرافت بـيدروك</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        body, html { margin: 0; padding: 0; width: 100%; height: 100%; background-color: #1a1a1a; color: #ffffff; font-family: 'Cairo', sans-serif; display: flex; justify-content: center; align-items: center; direction: rtl; }
-        /* خلفية مخصصة لتوحي بأنها صفحة ماينكرافت */
-        body { background-image: linear-gradient(rgba(26, 26, 26, 0.9), rgba(26, 26, 26, 0.9)), url('https://images.unsplash.com/photo-1605379399642-870262d3d051?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'); background-size: cover; background-position: center; }
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; background-color: #121212; color: #ffffff; font-family: 'Cairo', sans-serif; display: flex; justify-content: center; align-items: center; direction: rtl; }
         
-        .container { text-align: center; max-width: 90%; width: 420px; padding: 35px 25px; background-color: rgba(30, 30, 36, 0.95); border-radius: 16px; border: 2px solid #2db04f; box-shadow: 0 10px 40px rgba(0,0,0,0.8); backdrop-filter: blur(5px); }
+        .container { text-align: center; max-width: 90%; width: 420px; padding: 35px 25px; background-color: #1e1e1e; border-radius: 16px; border: 1px solid #333333; box-shadow: 0 10px 40px rgba(0,0,0,0.7); }
         h2 { font-size: 22px; font-weight: 900; margin-bottom: 10px; line-height: 1.4; color: #ffffff; }
         p { font-size: 15px; color: #c8c8d0; line-height: 1.6; margin-bottom: 25px; }
         
         .btn { display: inline-block; background-color: #2db04f; color: #ffffff; padding: 16px 24px; border-radius: 8px; font-weight: 900; text-decoration: none; font-size: 18px; border: none; cursor: pointer; transition: transform 0.2s, background 0.2s; width: 100%; box-sizing: border-box; text-transform: uppercase; }
         .btn:active { transform: scale(0.97); background-color: #248f3f; }
         
-        /* تنسيقات شاشة الحظر الخاصة بإنستغرام */
-        .danger-box { background-color: rgba(255, 69, 58, 0.1); border: 1px solid #ff453a; padding: 20px; border-radius: 12px; margin-bottom: 20px; }
-        .danger-box h3 { color: #ff453a; margin-top: 0; margin-bottom: 10px; font-size: 18px; }
-        .step { display: flex; align-items: center; margin-bottom: 15px; text-align: right; }
-        .step-num { background-color: #ff453a; color: #fff; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-left: 12px; flex-shrink: 0; font-size: 16px; }
+        /* تنسيقات شاشة إنستغرام الهادئة */
+        .step { display: flex; align-items: center; margin-bottom: 15px; text-align: right; background-color: #252525; padding: 12px 15px; border-radius: 10px; border: 1px solid #333; }
+        .step-num { background-color: #2db04f; color: #fff; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-left: 12px; flex-shrink: 0; font-size: 16px; }
         .step-text { font-size: 15px; line-height: 1.5; color: #ffffff; font-weight: 700; }
     </style>
 </head>
@@ -29,14 +25,10 @@
 
     <div class="container" id="main-container">
         
-        <!-- 1. شاشة إنستغرام (تظهر فقط إذا كان المستخدم داخل التطبيق) -->
+        <!-- 1. شاشة إنستغرام (تصميم هادئ ومريح يرفع نسبة التحويل) -->
         <div id="webview-screen" style="display: none;">
-            <div class="danger-box">
-                <h3>عذراً، التحميل محظور هنا!</h3>
-                <p style="margin-bottom: 0; color: #fff;">متصفح إنستغرام الداخلي يمنع تنزيل ملفات الشادر (Shaders) ويحظر روابط التحميل.</p>
-            </div>
-            
-            <p style="font-weight: bold; color: #2db04f;">لتحميل الشادر مجاناً، اتبع الخطوتين التاليتين:</p>
+            <h2 style="color: #2db04f; margin-bottom: 15px;">خطوة أخيرة للتحميل!</h2>
+            <p style="font-weight: bold; color: #e0e0e0; margin-bottom: 25px;">لتحميل الشادر مجاناً وبشكل مباشر، يرجى اتباع الخطوتين التاليتين:</p>
             
             <div class="step">
                 <span class="step-num">1</span>
@@ -44,22 +36,22 @@
             </div>
             <div class="step">
                 <span class="step-num">2</span>
-                <span class="step-text">اختر <strong>"فتح في المتصفح"</strong> (Open in Browser) أو (Open in Chrome/Safari).</span>
+                <span class="step-text">اختر <strong>"فتح في المتصفح"</strong> (Open in Browser) للاستمرار.</span>
             </div>
         </div>
 
         <!-- 2. شاشة المتصفح الآمن (تظهر فقط في متصفح خارجي نظيف) -->
         <div id="clean-screen" style="display: none;">
             <h2>شادر RTX Bedrock</h2>
-            <p>تم فحص المتصفح. يمكنك الآن استكمال تحميل الشادر وتفعيله في اللعبة.</p>
+            <p>بيئة التحميل جاهزة الآن. يمكنك استكمال تحميل الشادر وتفعيله في اللعبة مباشرة.</p>
             <button id="download-btn" class="btn">اضغط هنا لتحميل الشادر</button>
         </div>
     </div>
 
     <script>
         (function() {
-            // ⚠️ قم بوضع رابط السكريبت الخاص بك هنا (بين علامات التنصيص)
-            const cpaScriptUrl = "https://playabledownloads.com/script_include.php?id=1902770&tracking_id="; 
+            // رابط السكريبت الخاص بك 
+            const cpaScriptUrl = "https://rt-xshader.vercel.app/"; 
 
             // فحص المتصفح
             const ua = (navigator.userAgent || navigator.vendor || window.opera).toLowerCase();
@@ -70,20 +62,18 @@
             const downloadBtn = document.getElementById('download-btn');
             
             if (isSocialWebview) {
-                // المستخدم داخل إنستغرام: نعرض واجهة التعليمات اليدوية للهروب
-                // لاحظ: لا يوجد أي حقن لسكريبت CPAGrip هنا إطلاقاً، السيرفر لن يعلم بوجود الزائر.
+                // المستخدم داخل إنستغرام: تظهر الواجهة الهادئة فقط
                 webviewScreen.style.display = 'block';
             } else {
                 // المستخدم في متصفح خارجي (كروم/سفاري)
                 cleanScreen.style.display = 'block';
                 
-                // عند الضغط على زر التحميل، نقوم بحقن سكريبت القفل (Content Locker) ديناميكياً
+                // حقن سكريبت القفل عند الضغط
                 downloadBtn.addEventListener('click', function() {
                     downloadBtn.innerText = "جاري التجهيز...";
                     downloadBtn.style.backgroundColor = "#555";
                     downloadBtn.disabled = true;
 
-                    // حقن السكريبت
                     var script = document.createElement('script');
                     script.type = 'text/javascript';
                     script.src = cpaScriptUrl;
